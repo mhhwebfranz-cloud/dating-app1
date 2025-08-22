@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import { supabase } from '../utils/supabaseClient'
 
@@ -8,8 +9,9 @@ export default function Home() {
   useEffect(() => {
     let mounted = true
     ;(async () => {
-      const { data: { session } } await supabase.auth.getSession()
+      const { data: { session } } = await supabase.auth.getSession()
       if (mounted) setSession(session)
+
       supabase.auth.onAuthStateChange((_event, newSession) => {
         if (mounted) setSession(newSession)
       })
@@ -28,9 +30,9 @@ export default function Home() {
   if (!session) {
     return (
       <div className="center">
-        <div className="card stack">
+        <div className="card">
           <h1 className="title">Lovebird – Login</h1>
-          <button className="btn btn-primary" onClick={signInWithGoogle}>Mit Google einloggen</button>
+          <button className="btn-primary" onClick={signInWithGoogle}>Mit Google einloggen</button>
         </div>
       </div>
     )
@@ -42,10 +44,10 @@ export default function Home() {
 
   return (
     <div className="center">
-      <div className="card stack">
-        <h1 className="title">Willkommen, {session.user.email}</h1>
+      <div className="card">
+        <h1 className="title">Willkommen, {session.user?.email}</h1>
         <p>Dein Profil ist eingerichtet 🎉</p>
-        <button className="btn btn-danger" onClick={signOut}>Ausloggen</button>
+        <button onClick={signOut}>Ausloggen</button>
       </div>
     </div>
   )
@@ -56,7 +58,7 @@ function ProfileSetup({ onComplete }) {
   const [bio, setBio] = useState('')
   const [interests, setInterests] = useState('')
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     console.log('Profil gespeichert:', { age, bio, interests })
     onComplete()
@@ -64,13 +66,13 @@ function ProfileSetup({ onComplete }) {
 
   return (
     <div className="center">
-      <div className="card stack">
+      <div className="card">
         <h1 className="title">Profil einrichten</h1>
-        <form onSubmit={handleSubmit} className="stack">
+        <form onSubmit={handleSubmit}>
           <input className="input" type="number" placeholder="Alter" value={age} onChange={(e) => setAge(e.target.value)} required />
-          <textarea className="input" placeholder="Kurze Bio" value={bio} onChange={(e) => setBio(e.target.value)} required />
+          <textarea className="input" placeholder="Kurze Bio" value={bio} onChange={(e) => setBio(e.target.value)} style={{minHeight:100}} required />
           <input className="input" type="text" placeholder="Interessen (kommagetrennt)" value={interests} onChange={(e) => setInterests(e.target.value)} required />
-          <button type="submit" className="btn btn-primary">Speichern</button>
+          <button className="btn-primary" type="submit">Speichern</button>
         </form>
       </div>
     </div>

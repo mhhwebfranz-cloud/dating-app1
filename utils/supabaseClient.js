@@ -1,10 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('[Config] Bitte setze NEXT_PUBLIC_SUPABASE_URL und NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel > Settings > Environment Variables.')
+  console.warn('[Config] NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY is not set.')
 }
 
-export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '')
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
