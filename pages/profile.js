@@ -33,7 +33,6 @@ export default function Profile() {
     setStatus('')
     if (!session) { setStatus('Bitte zuerst einloggen.'); return }
 
-    // Validierung Alter
     const ageNum = parseInt(form.age, 10)
     if (!Number.isInteger(ageNum) || ageNum < 16 || ageNum > 35) {
       setStatus('Alter muss eine ganze Zahl zwischen 16 und 35 sein.')
